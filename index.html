@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eat-Map</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <section class="form-map-modal">
+      <header class="modal-header">
+        <span
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-map-2"
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5" />
+            <path d="M9 4v13" />
+            <path d="M15 7v5.5" />
+            <path
+              d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.121 1.379 2.121 2.379c1 -.999 1.703 -1.96 2.121 -2.379z"
+            />
+            <path d="M19 18v.01" /></svg
+        ></span>
+        <h1 class="app-title">EatMap</h1>
+        <h3 class="app-descrip">find restaurants near your location</h3>
+        <button class="search-btn">
+          <span
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg
+          ></span>
+          Search a location
+        </button>
+      </header>
+      <main class="modal-body">
+        <section class="modal-right">
+          <form action="#" class="form">
+            <div class="form-row">
+              <label for="country" class="form-label country-label"
+                >Country</label
+              >
+              <input
+                type="text"
+                id="country"
+                class="form-input country-input"
+                name="country"
+              />
+            </div>
+            <div class="form-row">
+              <label for="city" class="form-label city-label">City</label>
+              <input
+                type="text"
+                id="city"
+                class="form-input city-input"
+                name="city"
+              />
+            </div>
+            <div class="form-row">
+              <label for="location" class="form-label location-label"
+                >Location</label
+              >
+              <input
+                type="text"
+                id="location"
+                class="form-input location-input"
+                name="location"
+                readonly
+              />
+            </div>
+            <div class="form-row">
+              <label for="category" class="form-label category-label"
+                >Category</label
+              >
+              <select name="category" id="category">
+                <option value="all" selected>All</option>
+                <option value="restaurants">Restaurants</option>
+                <option value="cafe">Cafés</option>
+                <option value="fast-food">Fast Food</option>
+              </select>
+            </div>
+          </form>
+        </section>
+        <section class="modal-left">
+          <div class="modal-map" id="modal-map"></div>
+        </section>
+      </main>
+    </section>
+  </body>
+</html>
