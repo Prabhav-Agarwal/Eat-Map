@@ -14,7 +14,7 @@
 }
 
 /* modal hidden */
-.form-map-modal .hidden{
+ .hidden{
 	display: none;
 }
 
@@ -78,6 +78,11 @@
 /* modal-right */
 .modal-right{
 	flex-grow: 1;
+}
+/* Modal-Map */
+.modal-map{
+	height: 100%;
+	width: 100%;
 }
 
 /* form */
