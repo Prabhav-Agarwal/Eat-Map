@@ -1,0 +1,102 @@
+/* Global */
+*{
+	margin : 0;
+	padding : 0;
+}
+
+/* Section Form and  Map and Modal_____________________ */ 
+
+.form-map-modal{
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* modal hidden */
+.form-map-modal .hidden{
+	display: none;
+}
+
+/* Modal container */
+
+.modal-container{
+	min-width: 50%;
+	display: flex;
+	flex-direction:column;
+	align-items: center;
+	border: 1px solid black;
+	border-radius: 5%;
+	
+}
+
+/* modal title */
+.modal-title {
+	display: flex;
+	align-content: center;
+	margin: 0px  10px;
+}
+
+/* Modal Title description */
+.modal-title-descrip , .search-btn{
+	padding-top: 10px;
+}
+/* Search Btn */
+.search-btn{
+	display: flex;
+	align-content: center;
+	margin: 0px  10px;
+}
+
+
+/* Modal Header */
+.modal-header{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px  solid black;
+	padding: 15px 0;
+
+}
+
+/* modal-body */
+.modal-body{
+	width: 100%;
+	min-height: 400px;
+	display: flex;
+	justify-content: space-between;
+
+}
+
+/* Modal-left */
+.modal-left{
+	min-width: 70%;
+	border-left : 1px solid black;
+	flex-grow: 3;
+	
+}
+/* modal-right */
+.modal-right{
+	flex-grow: 1;
+}
+
+/* form */
+.form{
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;	
+	justify-content: space-around;
+}
+
+/* form row */
+.form-row{
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+/* form label */
+.form-label{
+	margin-bottom: 10px;
+}
