@@ -5,114 +5,211 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eat-Map</title>
     <link rel="stylesheet" href="styles.css" />
-     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
-      <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-     crossorigin=""></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      defer
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
     <script defer src="app.js"></script>
   </head>
   <body>
-    <section class="form-map-modal ">
+    <section class="form-map-modal">
+      <div class="modal-overlay"></div>
       <div class="modal-container">
-      <header class="modal-header">
-        <h1 class="modal-title">
-        <span
-          ><svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="icon icon-tabler icon-tabler-map-2"
-            width="36"
-            height="36"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5" />
-            <path d="M9 4v13" />
-            <path d="M15 7v5.5" />
-            <path
-              d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.121 1.379 2.121 2.379c1 -.999 1.703 -1.96 2.121 -2.379z"
-            />
-            <path d="M19 18v.01" /></svg
-        ></span> EatMap
-         </h1>
-        <h3 class="modal-title-descrip">find restaurants near your location</h3>
-        <button class="search-btn">
-          <span
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg
-          ></span>
-          Search a location
-        </button>
-      </header>
-      <main class="modal-body">
-        <section class="modal-right">
-          <form action="#" class="form">
-            <div class="form-row">
-              <label for="country" class="form-label country-label"
-                >Country</label
+        <header class="modal-header">
+          <h1 class="modal-title">
+            <span class="logo-modal-title"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-map-2"
+                width="36"
+                height="36"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               >
-              <input
-                type="text"
-                id="country"
-                class="form-input country-input"
-                name="country"
-              />
-            </div>
-            <div class="form-row">
-              <label for="city" class="form-label city-label">City</label>
-              <input
-                type="text"
-                id="city"
-                class="form-input city-input"
-                name="city"
-              />
-            </div>
-            <div class="form-row">
-              <label for="location" class="form-label location-label"
-                >Location</label
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5" />
+                <path d="M9 4v13" />
+                <path d="M15 7v5.5" />
+                <path
+                  d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.121 1.379 2.121 2.379c1 -.999 1.703 -1.96 2.121 -2.379z"
+                />
+                <path d="M19 18v.01" /></svg
+            ></span>
+            Eat<span>Map</span>
+          </h1>
+          <h3 class="modal-title-descrip">
+            find restaurants near your location
+          </h3>
+          <button class="search-btn" type="submit" form="modal-form">
+            <span class="magnifying-glass-svg"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               >
-              <input
-                type="text"
-                id="location"
-                class="form-input location-input"
-                name="location"
-                readonly
-              />
-            </div>
-            <div class="form-row">
-              <label for="category" class="form-label category-label"
-                >Category</label
-              >
-              <select name="category" id="category">
-                <option value="all" selected>All</option>
-                <option value="restaurants">Restaurants</option>
-                <option value="cafe">Cafés</option>
-                <option value="fast-food">Fast Food</option>
-              </select>
-            </div>
-          </form>
-        </section>
-        <section class="modal-left">
-          <div class="modal-map" id="modal-map"></div>
-        </section>
-      </main>
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg
+            ></span>
+            Search Dining Places
+          </button>
+        </header>
+        <main class="modal-body">
+          <section class="modal-left">
+            <form action="#" class="modal-form" id="modal-form">
+              <div class="form-row">
+                <label for="country" class="form-label country-label"
+                  ><span class="form-label-svg">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 32 32"
+                      fill="none"
+                    >
+                      <circle
+                        cx="16"
+                        cy="16"
+                        r="11"
+                        stroke="#14B8A6"
+                        stroke-width="2"
+                      />
+                      <path
+                        d="M5 16h22M16 5c3 3.1 4.5 6.8 4.5 11S19 23.9 16 27M16 5c-3 3.1-4.5 6.8-4.5 11S13 23.9 16 27"
+                        stroke="#0F172A"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      /></svg></span
+                  >Country</label
+                >
+                <input
+                  type="text"
+                  id="country"
+                  class="form-input country-input"
+                  name="country"
+                />
+              </div>
+              <div class="form-row">
+                <label for="city" class="form-label city-label"
+                  ><span class="form-label-svg">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 32 32"
+                      fill="none"
+                    >
+                      <path
+                        d="M5 27V10l8-3v20M13 27V4h7v23M20 27v-13l7-3v16"
+                        stroke="#14B8A6"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M9 13h1M9 17h1M9 21h1M16 9h1M16 13h1M16 17h1M16 21h1M23 18h1M23 22h1"
+                        stroke="#0F172A"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      /></svg
+                  ></span>
+                  City</label
+                >
+                <input
+                  type="text"
+                  id="city"
+                  class="form-input city-input"
+                  name="city"
+                />
+              </div>
+              <div class="form-row">
+                <label for="location" class="form-label location-label"
+                  ><span class="form-label-svg">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 32 32"
+                      fill="none"
+                    >
+                      <path
+                        d="M16 28s8-7.6 8-14a8 8 0 1 0-16 0c0 6.4 8 14 8 14Z"
+                        stroke="#14B8A6"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      />
+                      <circle
+                        cx="16"
+                        cy="14"
+                        r="2.5"
+                        fill="#14B8A6"
+                      /></svg></span
+                  >Location</label
+                >
+                <input
+                  type="text"
+                  id="location"
+                  class="form-input location-input"
+                  name="location"
+                  readonly
+                />
+              </div>
+              <div class="form-row">
+                <label for="category" class="form-label category-label"
+                  ><span class="form-label-svg">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 32 32"
+                      fill="none"
+                    >
+                      <path
+                        d="M9 5v9M6 5v7a3 3 0 0 0 3 3v12M12 5v7a3 3 0 0 1-3 3M21 5v22M21 5c4 2 5 6 3 9-1 1.5-2 2-3 2"
+                        stroke="#14B8A6"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      /></svg></span
+                  >Category</label
+                >
+                <select
+                  name="category"
+                  id="category"
+                  class="form-input category-input"
+                >
+                  <option class="option" value="all" selected>All</option>
+                  <option class="option" value="restaurants">
+                    Restaurants
+                  </option>
+                  <option class="option" value="cafe">Cafés</option>
+                  <option class="option optionLast" value="fast-food">
+                    Fast Food
+                  </option>
+                </select>
+              </div>
+            </form>
+          </section>
+          <section class="modal-right">
+            <div class="modal-map" id="modal-map"></div>
+          </section>
+        </main>
       </div>
     </section>
   </body>

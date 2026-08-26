@@ -1,107 +1,218 @@
+/* CSS Custom properties */
+:root {
+  --primary-color-1: #0f172a;
+  --primary-color-2: #14b8a6;
+  --primary-color-3: #2dd4bf;
+
+  --neutral-color-1: #f8faf6;
+  --neutral-color-2: #f1f5f9;
+  --neutral-color-3: #e2e8f0;
+  --neutral-color-4: #94a3bb;
+  --neutral-color-5: #334155;
+
+  /* heading  */
+  --heading-size: 32px;
+  --heading-weight: 600;
+  --heading-color: #0f172a;
+
+  /* subheading */
+  --subHeading-size: 16px;
+  --subHeading-weight: 500;
+  --subHeading-color: #334155;
+}
+
 /* Global */
-*{
-	margin : 0;
-	padding : 0;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-/* Section Form and  Map and Modal_____________________ */ 
-
-.form-map-modal{
-	min-height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+/* body */
+body {
+  font-size: 14px;
+  font-weight: 400;
+  color: #475569;
 }
 
+body,
+input,
+select,
+button,
+textarea {
+  font-family: "Inter", sans-serif;
+}
+
+/* Section Form and  Map and Modal_____________________ */
+
+.form-map-modal {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* modal overlay */
+.modal-overlay {
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.7);
+  position: fixed;
+}
 /* modal hidden */
- .hidden{
-	display: none;
+.hidden {
+  display: none;
 }
 
 /* Modal container */
 
-.modal-container{
-	min-width: 50%;
-	display: flex;
-	flex-direction:column;
-	align-items: center;
-	border: 1px solid black;
-	border-radius: 5%;
-	
+.modal-container {
+  min-width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+
+  border: 1px solid black;
+  position: absolute;
+  z-index: 10;
 }
 
 /* modal title */
 .modal-title {
-	display: flex;
-	align-content: center;
-	margin: 0px  10px;
+  display: flex;
+  align-content: space-between;
+  margin: 0px 10px;
+  color: var(--neutral-color-1);
+  font-weight: 600;
+  font-size: 32px;
 }
 
-/* Modal Title description */
-.modal-title-descrip , .search-btn{
-	padding-top: 10px;
+/* logo modal title */
+.logo-modal-title {
+  margin-right: 12px;
 }
+
+/* modal descrip */
+.modal-title-descrip {
+  position: relative;
+  top: 15px;
+  font-size: 20px;
+  color: var(--neutral-color-1);
+  font-weight: var(--subHeading-weight);
+}
+
 /* Search Btn */
-.search-btn{
-	display: flex;
-	align-content: center;
-	margin: 0px  10px;
+.search-btn {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin: 0px 10px;
+  width: 250px;
+  border-radius: 10px;
+  color: var(--neutral-color-4);
+  border-color: var(--neutral-color-4);
+  border-width: 1.75px;
+  background-color: inherit;
+  border-style: solid;
+  cursor: pointer;
+  font-size: 16px;
 }
 
+.search-btn:hover {
+  background-color: var(--neutral-color-3);
+}
+
+.magnifying-glass-svg {
+  margin-right: 10px;
+}
 
 /* Modal Header */
-.modal-header{
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	border-bottom: 1px  solid black;
-	padding: 15px 0;
-
+.modal-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  padding: 15px 0;
+  background-color: var(--primary-color-1);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
 /* modal-body */
-.modal-body{
-	width: 100%;
-	min-height: 400px;
-	display: flex;
-	justify-content: space-between;
-
+.modal-body {
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  justify-content: space-between;
 }
 
-/* Modal-left */
-.modal-left{
-	min-width: 70%;
-	border-left : 1px solid black;
-	flex-grow: 3;
-	
+/* Modal-right */
+.modal-right {
+  min-width: 70%;
+  border-left: 2px solid var(--primary-color-2);
+  flex-grow: 3;
+  border-bottom-right-radius: 20px;
+  background-color: var(--neutral-color-1);
 }
-/* modal-right */
-.modal-right{
-	flex-grow: 1;
+/* modal-left */
+.modal-left {
+  flex-grow: 1;
+  background-color: var(--neutral-color-1);
+  border-bottom-left-radius: 20px;
 }
 /* Modal-Map */
-.modal-map{
-	height: 100%;
-	width: 100%;
+.modal-map {
+  height: 100%;
+  width: 100%;
+  border-bottom-right-radius: 20px;
 }
 
 /* form */
-.form{
-	min-height: 100%;
-	display: flex;
-	flex-direction: column;	
-	justify-content: space-around;
+.modal-form {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 /* form row */
-.form-row{
-	display:flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 5px;
-	margin-bottom: 10px;
+.form-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  margin-bottom: 10px;
 }
 /* form label */
-.form-label{
-	margin-bottom: 10px;
+.form-label {
+  position: relative;
+  right: 60px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: var(--subHeading-weight);
+  color: var(--primary-color-1);
+}
+
+.form-label-svg {
+  margin-right: 10px;
+}
+
+/* form input  and select element*/
+.form-input {
+  width: 225px;
+  height: 30px;
+  border-radius: 5px;
+  border-color: var(--neutral-color-3);
+  border-style: solid;
+  padding: 5px 10px;
+  color: var(--primary-color-1);
+  font-size: 16px;
+  font-weight: var(--subHeading-weight);
+}
+
+.form-input::placeholder {
+  color: var(--neutral-color-4);
 }
