@@ -1,0 +1,44 @@
+/* CSS Custom properties */
+:root {
+  --primary-color-1: #0f172a;
+  --primary-color-2: #14b8a6;
+  --primary-color-3: #2dd4bf;
+
+  --neutral-color-1: #f8faf6;
+  --neutral-color-2: #f1f5f9;
+  --neutral-color-3: #e2e8f0;
+  --neutral-color-4: #94a3bb;
+  --neutral-color-5: #334155;
+
+  /* heading  */
+  --heading-size: 32px;
+  --heading-weight: 600;
+  --heading-color: #0f172a;
+
+  /* subheading */
+  --subHeading-size: 16px;
+  --subHeading-weight: 500;
+  --subHeading-color: #334155;
+}
+
+/* Global */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* body */
+body {
+  min-height: 100vh;
+  font-size: 14px;
+  font-weight: 400;
+  color: #475569;
+}
+
+body,
+input,
+select,
+button,
+textarea {
+  font-family: "Inter", sans-serif;
+}

@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eat-Map</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styleSheets/base.css" />
+    <link rel="stylesheet" href="styleSheets/modal.css" />
+    <link rel="stylesheet" href="styleSheets/main.css" />
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -20,12 +22,311 @@
     <script defer src="app.js"></script>
   </head>
   <body>
-    <section class="form-map-modal">
+    <section class="main-content">
+      <section class="main-content-header">
+        <div class="branding">
+          <h1 class="app-title">
+            <span class="app-logo"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-map-2"
+                width="36"
+                height="36"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5" />
+                <path d="M9 4v13" />
+                <path d="M15 7v5.5" />
+                <path
+                  d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.121 1.379 2.121 2.379c1 -.999 1.703 -1.96 2.121 -2.379z"
+                />
+                <path d="M19 18v.01" /></svg
+            ></span>
+            Eat<span>Map</span>
+          </h1>
+        </div>
+        <div class="category-nav">
+          <button class="category-nav-btn all-btn">All</button>
+          <button class="category-nav-btn restaurant-btn">
+            <span class="btn-svg restaurant-svg">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+              >
+                <g
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M10 4v10" />
+                  <path d="M7 4v5c0 3 1.5 5 3 5s3-2 3-5V4" />
+                  <path d="M10 14v14" />
+                  <path d="M20 4c-2 3-2 8 0 12l3 16" />
+                  <path d="M23 4v28" />
+                </g></svg></span
+            >Restaurant
+          </button>
+          <button class="category-nav-btn cafe-btn">
+            <span class="btn-svg cafe-svg">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+              >
+                <g
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 13h19v3c0 5-3.8 8-9.5 8S5 21 5 16v-3Z" />
+                  <path d="M24 15h2c4 0 4 6 0 6h-3" />
+                  <path d="M9 28h13" />
+                  <path d="M12 7c-2-2 2-3 0-5M18 7c-2-2 2-3 0-5" />
+                </g></svg></span
+            >Cafes
+          </button>
+          <button class="category-nav-btn bar-btn">
+            <span class="btn-svg bar-svg"
+              ><svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <title>Wine glass</title>
+                <path d="M8 3 Q8 20 16 20 Q24 20 24 3" />
+                <line x1="16" y1="20" x2="16" y2="27" />
+                <ellipse cx="16" cy="28.3" rx="5" ry="1.1" /></svg></span
+            >Bars
+          </button>
+          <button class="category-nav-btn fastfood-btn">
+            <span class="btn-svg fastfood-svg"
+              ><svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <title>Burger</title>
+                <path d="M4 26 Q4 29 16 29 Q28 29 28 26" />
+                <path
+                  d="M4 26 L4 23 Q4 21.5 6 21.5 L26 21.5 Q28 21.5 28 23 L28 26"
+                />
+                <path d="M4 21.5 L4 20 L28 20 L28 21.5" />
+                <path d="M3 20 Q3 12 16 11.5 Q29 12 29 20 Z" />
+                <circle cx="10" cy="15.5" r="0.6" />
+                <circle cx="16" cy="14" r="0.6" />
+                <circle cx="22" cy="15.5" r="0.6" /></svg></span
+            >Fast Food
+          </button>
+        </div>
+        <input
+          type="text"
+          class="search-places"
+          placeholder="Search places..."
+        />
+        <div class="change-location-field">
+          <span class="map-pin-svg"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+            >
+              <path
+                d="M16 28s8-7.6 8-14a8 8 0 1 0-16 0c0 6.4 8 14 8 14Z"
+                stroke="#14B8A6"
+                stroke-width="2"
+                stroke-linejoin="round"
+              />
+              <circle cx="16" cy="14" r="2.5" fill="#14B8A6" /></svg
+          ></span>
+          <span class="current-city-name">Greater Noida</span
+          ><button>Change Location</button>
+        </div>
+      </section>
+      <section class="main-content-body">
+        <section class="main-content-body-left">
+          <section class="places-header">
+            <div class="places-header-left">
+              <span class="style-it">Dining Spots</span>in Greater Noida
+            </div>
+            <div class="places-header-right">42 places</div>
+          </section>
+          <section class="places-cards">
+            <div class="places-card">
+              <img src="" alt="" class="places-img" />
+              <div class="places-info">
+                <h4 class="place-name">Place Name</h4>
+                <div class="place-category-cuisine">Category : Cuisine</div>
+                <div>&bull; x&thinsp;km away</div>
+              </div>
+            </div>
+          </section>
+        </section>
+        <section class="main-content-body-right">
+          <div class="main-map" id="main-map"></div>
+          <div class="map-legend">
+            <span class="map-legend-row">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 64 80"
+              >
+                <defs>
+                  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                    <stop stop-color="#ff8a00" />
+                    <stop offset="1" stop-color="#f04400" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M32 78C30 72 10 51 10 31C10 19 20 9 32 9s22 10 22 22c0 20-20 41-22 47z"
+                  fill="url(#g)"
+                  stroke="#fff"
+                  stroke-width="2"
+                />
+                <circle cx="32" cy="31" r="17" fill="#fff" />
+                <g
+                  stroke="#f45b12"
+                  stroke-width="2.8"
+                  stroke-linecap="round"
+                  fill="none"
+                >
+                  <path
+                    d="M27 19v18M23.5 19v7M27 19v7M30.5 19v7M23.5 26c0 4 1.8 6 3.5 6"
+                  />
+                  <path d="M38 19c-3 5-3 12 0 18M38 37l4 12M42 19v30" />
+                </g></svg
+              >Restaurants</span
+            >
+            <span class="map-legend-row"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 64 80"
+              >
+                <defs>
+                  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                    <stop stop-color="#9a531f" />
+                    <stop offset="1" stop-color="#5f2d12" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M32 78C30 72 10 51 10 31C10 19 20 9 32 9s22 10 22 22c0 20-20 41-22 47z"
+                  fill="url(#g)"
+                  stroke="#fff"
+                  stroke-width="2"
+                />
+                <circle cx="32" cy="31" r="17" fill="#fff" />
+                <g
+                  fill="none"
+                  stroke="#7a3d17"
+                  stroke-width="2.8"
+                  stroke-linecap="round"
+                >
+                  <path d="M21 30h22v3c0 7-5 10-11 10s-11-3-11-10z" />
+                  <path d="M43 32h3c4 0 4 7 0 7h-3" />
+                  <path d="M25 48h14" />
+                  <path d="M27 19c-3 3 3 5 0 8M35 18c-3 3 3 5 0 8" />
+                </g></svg
+              >Cafes</span
+            >
+            <span class="map-legend-row">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 64 80"
+              >
+                <defs>
+                  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                    <stop stop-color="#7040ff" />
+                    <stop offset="1" stop-color="#3d16c9" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M32 78C30 72 10 51 10 31C10 19 20 9 32 9s22 10 22 22c0 20-20 41-22 47z"
+                  fill="url(#g)"
+                  stroke="#fff"
+                  stroke-width="2"
+                />
+                <circle cx="32" cy="31" r="17" fill="#fff" />
+                <g
+                  fill="none"
+                  stroke="#5422d8"
+                  stroke-width="2.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M22 22h20l-8 10v10h6M34 42h-8" />
+                  <path d="M42 23c5-1 5 7 0 7h-4" />
+                </g></svg
+              >Bars</span
+            >
+            <span class="map-legend-row">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 64 80"
+              >
+                <defs>
+                  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                    <stop stop-color="#ff4d4d" />
+                    <stop offset="1" stop-color="#d91d32" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M32 78C30 72 10 51 10 31C10 19 20 9 32 9s22 10 22 22c0 20-20 41-22 47z"
+                  fill="url(#g)"
+                  stroke="#fff"
+                  stroke-width="2"
+                />
+                <circle cx="32" cy="31" r="17" fill="#fff" />
+                <g fill="#e51e35">
+                  <path d="M20 29c2-7 22-7 24 0z" />
+                  <path d="M22 31h20v4H22z" />
+                  <path d="M21 36h22v3H21z" />
+                  <path d="M23 40h18v3H23z" />
+                </g></svg
+              >Fast Food</span
+            >
+          </div>
+        </section>
+      </section>
+    </section>
+    <section class="form-map-modal hidden">
       <div class="modal-overlay"></div>
       <div class="modal-container">
         <header class="modal-header">
-          <h1 class="modal-title">
-            <span class="logo-modal-title"
+          <h1 class="app-title">
+            <span class="app-logo"
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="icon icon-tabler icon-tabler-map-2"

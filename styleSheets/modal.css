@@ -1,46 +1,9 @@
-/* CSS Custom properties */
-:root {
-  --primary-color-1: #0f172a;
-  --primary-color-2: #14b8a6;
-  --primary-color-3: #2dd4bf;
-
-  --neutral-color-1: #f8faf6;
-  --neutral-color-2: #f1f5f9;
-  --neutral-color-3: #e2e8f0;
-  --neutral-color-4: #94a3bb;
-  --neutral-color-5: #334155;
-
-  /* heading  */
-  --heading-size: 32px;
-  --heading-weight: 600;
-  --heading-color: #0f172a;
-
-  /* subheading */
-  --subHeading-size: 16px;
-  --subHeading-weight: 500;
-  --subHeading-color: #334155;
-}
-
-/* Global */
-* {
-  margin: 0;
-  padding: 0;
-}
-
-/* body */
-body {
-  font-size: 14px;
-  font-weight: 400;
-  color: #475569;
-}
 
 body,
 input,
 select,
 button,
-textarea {
-  font-family: "Inter", sans-serif;
-}
+textarea { font-family: "Inter", sans-serif; }
 
 /* Section Form and  Map and Modal_____________________ */
 
@@ -66,6 +29,7 @@ textarea {
 /* Modal container */
 
 .modal-container {
+  width: 60vw;
   min-width: 60%;
   display: flex;
   flex-direction: column;
@@ -78,7 +42,7 @@ textarea {
 }
 
 /* modal title */
-.modal-title {
+.app-title {
   display: flex;
   align-content: space-between;
   margin: 0px 10px;
@@ -88,7 +52,7 @@ textarea {
 }
 
 /* logo modal title */
-.logo-modal-title {
+.app-logo {
   margin-right: 12px;
 }
 
@@ -130,6 +94,7 @@ textarea {
 /* Modal Header */
 .modal-header {
   width: 100%;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid black;
@@ -141,8 +106,9 @@ textarea {
 
 /* modal-body */
 .modal-body {
-  width: 100%;
-  min-height: 400px;
+  width:100%;
+  min-height: 100%;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
 }
@@ -158,6 +124,7 @@ textarea {
 /* modal-left */
 .modal-left {
   flex-grow: 1;
+  min-width: 0; 
   background-color: var(--neutral-color-1);
   border-bottom-left-radius: 20px;
 }
@@ -186,6 +153,7 @@ textarea {
 }
 /* form label */
 .form-label {
+  max-width: 100%;
   position: relative;
   right: 60px;
   display: flex;
@@ -203,6 +171,7 @@ textarea {
 /* form input  and select element*/
 .form-input {
   width: 225px;
+  max-width: 100%;
   height: 30px;
   border-radius: 5px;
   border-color: var(--neutral-color-3);

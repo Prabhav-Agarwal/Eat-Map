@@ -1,4 +1,5 @@
 "use strict";
+/* https://github.com/pointhi/leaflet-color-markers */
 
 //selecting dom elements
 const modalSection = document.querySelector(".form-map-modal");
@@ -8,6 +9,7 @@ const countryInput = document.querySelector(".country-input");
 const cityInput = document.querySelector(".city-input");
 const locationInput = document.querySelector(".location-input");
 const categoryInput = document.querySelector(".category-input");
+
 
 var redIcon = new L.Icon({
   iconUrl:

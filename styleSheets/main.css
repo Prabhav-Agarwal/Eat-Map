@@ -1,0 +1,44 @@
+body,
+input,
+select,
+button,
+textarea { font-family: "Inter", sans-serif; }
+
+/* main container */
+.main-content{
+	display:flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+/* main content header */
+.main-content-header{
+	display:flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	height: 96px;
+	box-sizing: border-box;
+	padding: 24px;
+	background-color: var(--primary-color-1);
+
+}
+
+/* main content body */
+.main-content-body{
+	flex-grow:1;
+	display: flex;
+	min-width: 100vw;
+}
+
+
+/* main-content-body-left */
+.main-content-body-left{
+	width: 25%;
+}
+
+/* main-content-body-left */
+.main-content-body-right{
+	width: 75%;
+}
+
