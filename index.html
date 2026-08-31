@@ -22,7 +22,7 @@
     <script defer src="app.js"></script>
   </head>
   <body>
-    <section class="main-content">
+    <section class="main-content hidden">
       <section class="main-content-header">
         <div class="branding">
           <h1 class="app-title">
@@ -52,7 +52,7 @@
           </h1>
         </div>
         <div class="category-nav">
-          <button class="category-nav-btn all-btn">All</button>
+          <button class="category-nav-btn all-btn selected">All</button>
           <button class="category-nav-btn restaurant-btn">
             <span class="btn-svg restaurant-svg">
               <svg
@@ -74,7 +74,7 @@
                   <path d="M20 4c-2 3-2 8 0 12l3 16" />
                   <path d="M23 4v28" />
                 </g></svg></span
-            >Restaurant
+            >Restaurants
           </button>
           <button class="category-nav-btn cafe-btn">
             <span class="btn-svg cafe-svg">
@@ -145,7 +145,7 @@
         </div>
         <input
           type="text"
-          class="search-places"
+          class="search-places-input"
           placeholder="Search places..."
         />
         <div class="change-location-field">
@@ -321,7 +321,7 @@
         </section>
       </section>
     </section>
-    <section class="form-map-modal hidden">
+    <section class="form-map-modal">
       <div class="modal-overlay"></div>
       <div class="modal-container">
         <header class="modal-header">

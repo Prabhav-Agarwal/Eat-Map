@@ -1,9 +1,10 @@
-
 body,
 input,
 select,
 button,
-textarea { font-family: "Inter", sans-serif; }
+textarea {
+  font-family: "Inter", sans-serif;
+}
 
 /* Section Form and  Map and Modal_____________________ */
 
@@ -106,7 +107,7 @@ textarea { font-family: "Inter", sans-serif; }
 
 /* modal-body */
 .modal-body {
-  width:100%;
+  width: 100%;
   min-height: 100%;
   box-sizing: border-box;
   display: flex;
@@ -124,7 +125,7 @@ textarea { font-family: "Inter", sans-serif; }
 /* modal-left */
 .modal-left {
   flex-grow: 1;
-  min-width: 0; 
+  min-width: 0;
   background-color: var(--neutral-color-1);
   border-bottom-left-radius: 20px;
 }
