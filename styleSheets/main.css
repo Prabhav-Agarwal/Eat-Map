@@ -11,6 +11,11 @@ textarea {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  height: 100vh;
+}
+/* main content hidden */
+.main-content.hidden {
+  display: none;
 }
 
 /* main content header */
@@ -21,7 +26,7 @@ textarea {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 96px;
+  height: 84px;
   box-sizing: border-box;
   padding: 24px;
   background-color: var(--primary-color-1);
@@ -32,16 +37,26 @@ textarea {
   flex-grow: 1;
   display: flex;
   min-width: 100vw;
+  width: 100vw;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* main-content-body-left */
 .main-content-body-left {
+  display: flex;
+  flex-direction: column;
   width: 25%;
+  background-color: var(--neutral-color-1);
+  border-right: 2px solid var(--primary-color-2);
 }
 
 /* main-content-body-left */
 .main-content-body-right {
   width: 75%;
+  position: relative;
+  z-index: 1;
 }
 
 /* category nav */
@@ -80,12 +95,12 @@ textarea {
   color: var(--neutral-color-1);
 }
 
-/* search places inpui field  */
+/* search places input field  */
 .search-places-input {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0px 15px;
+  padding: 5px 15px;
   width: 250px;
   height: 100%;
   border-radius: 10px;
@@ -99,6 +114,168 @@ textarea {
 }
 
 .search-places-input::placeholder {
-  color: var(--neutral-color-1);
+  color: var(--neutral-color-4);
   font-weight: 400;
+}
+
+.search-places-input:focus-visible {
+  outline: none;
+}
+
+/* Change Location field */
+.change-location-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  width: 300px;
+  height: 100%;
+  border-radius: 10px;
+  color: var(--neutral-color-1);
+  border-color: var(--neutral-color-4);
+  border-width: 1.75px;
+  border-style: solid;
+  background-color: inherit;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.change-location-field span {
+  margin: 0px 2px;
+}
+/*  nav bar location change btn*/
+.change-location-btn {
+  box-sizing: content-box;
+  height: 60%;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: inherit;
+  border: 1px solid var(--primary-color-2);
+  border-radius: 5px;
+  color: var(--primary-color-3);
+}
+
+/* Now styling main content body left portion here all the result will be displayed */
+
+/* first styling header of places */
+.places-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 25px 25px 25px 10px;
+  box-shadow: 0 8px 5px -5px rgba(38, 38, 38, 0.3);
+}
+
+.places-header-right {
+  font-weight: 600;
+  color: var(--primary-color-3);
+}
+.places-header-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  font-weight: 400;
+}
+
+.style-it {
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+/* styling places  cards container */
+.places-cards {
+  flex: 1;
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 25px 10px 10px;
+}
+
+/* styling places cards */
+.places-card {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: 10px;
+  height: 150px;
+  min-height: 150px;
+  box-shadow:
+    rgba(14, 63, 126, 0.06) 0px 0px 0px 1px,
+    rgba(42, 51, 70, 0.03) 0px 1px 1px -0.5px,
+    rgba(42, 51, 70, 0.04) 0px 2px 2px -1px,
+    rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px,
+    rgba(42, 51, 70, 0.03) 0px 5px 5px -2.5px,
+    rgba(42, 51, 70, 0.03) 0px 10px 10px -5px,
+    rgba(42, 51, 70, 0.03) 0px 24px 24px -8px;
+  background-color: rgb(255, 255, 255);
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.places-img {
+  width: 40%;
+  height: 100%;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.places-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.place-name {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.website-link {
+  display: flex;
+  margin: px;
+  border-bottom: 1px solid var(--primary-color-3);
+}
+.hyper-link {
+  color: var(--primary-color-3);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Styling rightpart of main contetn container  */
+
+/* Styling map */
+.main-map {
+  height: 100%;
+  width: 100%;
+  z-index: 5;
+}
+
+/* Styling map Legend */
+.map-legend {
+  position: absolute;
+  right: 10px;
+  bottom: 75px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 10px;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+
+  border-radius: 5px;
+}
+.map-legend-row {
+  display: flex;
+  align-items: center;
+  margin: 3px;
+  font-weight: 500;
 }

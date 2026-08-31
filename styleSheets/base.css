@@ -42,3 +42,8 @@ button,
 textarea {
   font-family: "Inter", sans-serif;
 }
+
+/* modal hidden or main content hidden*/
+.form-map-modal.hidden {
+  display: none;
+}

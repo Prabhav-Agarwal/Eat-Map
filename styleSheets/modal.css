@@ -13,7 +13,6 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
 }
 
 /* modal overlay */
@@ -21,10 +20,6 @@ textarea {
   inset: 0;
   background-color: rgba(15, 23, 42, 0.7);
   position: fixed;
-}
-/* modal hidden */
-.hidden {
-  display: none;
 }
 
 /* Modal container */
@@ -184,5 +179,10 @@ textarea {
 }
 
 .form-input::placeholder {
-  color: var(--neutral-color-4);
+  color: var(--neutral-color-1);
+}
+
+/* hidden modal window */
+.form-map-modal.hidden {
+  display: none;
 }

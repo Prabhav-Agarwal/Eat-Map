@@ -10,10 +10,46 @@ const cityInput = document.querySelector(".city-input");
 const locationInput = document.querySelector(".location-input");
 const categoryInput = document.querySelector(".category-input");
 
+const mainContentContainer = document.querySelector(".main-content");
 
-var redIcon = new L.Icon({
-  iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+const currentLocationIcon = new L.Icon({
+  iconUrl: "svgs/current-location.svg",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+const restaurantIcon = new L.Icon({
+  iconUrl: "svgs/restaurant.svg",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+const cafeIcon = new L.Icon({
+  iconUrl: "svgs/cafe.svg",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+const fastFoodIcon = new L.Icon({
+  iconUrl: "svgs/fast-food.svg",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+const barIcon = new L.Icon({
+  iconUrl: "svgs/bar.svg",
   shadowUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
   iconSize: [25, 41],
@@ -25,26 +61,26 @@ var redIcon = new L.Icon({
 class ModalWindow {
   #modalMap;
   #myLocationMarker;
+  #currentLocationLatLng;
 
   constructor() {
-    (async () => {
+    this.showModalWindow()(async () => {
       try {
         const position = await this.#getClientCoordinates();
-		const { latitude, longitude } = position.coords;
-		const locationInfo = await this.#getLocationInfo(latitude , longitude)
-		this.#renderModalMap([latitude, longitude]);
-		this.#updateForm(locationInfo)
+        const { latitude, longitude } = position.coords;
+        this.#currentLocationLatLng = [latitude, longitude];
+        const locationInfo = await this.#getLocationInfo(latitude, longitude);
+        this.#renderModalMap([latitude, longitude]);
+        this.#updateForm(locationInfo);
 
-		//event for updating form when location is updated by dropping pin on map
-		this.#modalMap.on('click' , async (e)=> {
-			const {lat , lng} = e.latlng
-
-			this.#myLocationMarker.setLatLng([lat , lng])
-			const newLocationInfo = await this.#getLocationInfo(lat , lng)
-			this.#updateForm(newLocationInfo)
-
-		})
-
+        //event for updating form when location is updated by dropping pin on map
+        this.#modalMap.on("click", async (e) => {
+          const { lat, lng } = e.latlng;
+          this.#currentLocationLatLng = [lat, lng];
+          this.#myLocationMarker.setLatLng([lat, lng]);
+          const newLocationInfo = await this.#getLocationInfo(lat, lng);
+          this.#updateForm(newLocationInfo);
+        });
       } catch (e) {
         console.error(`Something Went Wrong : ${e}`);
       }
@@ -63,7 +99,6 @@ class ModalWindow {
   //Function for rendering modal map (this --> modalWindow class itself)
   #renderModalMap(latLng) {
     return new Promise((resolve) => {
-      
       this.#modalMap = L.map("modal-map").setView(latLng, 13);
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
@@ -71,7 +106,7 @@ class ModalWindow {
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(this.#modalMap);
       this.#myLocationMarker = L.marker(latLng, {
-        icon: redIcon,
+        icon: currentLocationIcon,
       }).addTo(this.#modalMap);
 
       resolve();
@@ -94,41 +129,62 @@ class ModalWindow {
     }
   }
 
-
   //Function nfor updating form inputs
-  #updateForm(locationInfo){
-	countryInput.value = locationInfo.results[0].country
-	cityInput.value = locationInfo.results[0].city
-	locationInput.value = locationInfo.results[0].formatted
+  #updateForm(locationInfo) {
+    countryInput.value = locationInfo.results[0].country;
+    cityInput.value = locationInfo.results[0].city;
+    locationInput.value = locationInfo.results[0].formatted;
   }
 
-  hideModalWindow(){
-	modalSection.classList.add('hidden')
+  hideModalWindow() {
+    modalSection.classList.add("hidden");
+  }
+  showModalWindow() {
+    modalSection.classList.remove("hidden");
   }
 }
 
-class App{
+class App {
+  #modalWindow;
+  #mainMap;
+  #places = [];
+  #myLocationMarker;
 
-	#modalWindow
-	constructor(){
-		//Initializing modal window class
+  constructor() {
+    //Initializing modal window class
 
-		this.#modalWindow = new ModalWindow()
+    this.#modalWindow = new ModalWindow();
 
-		//adding form submit event listener to from
-		modalForm.addEventListener('submit' , (e)=>{
-			e.preventDefault()
-			//hiding modal window
-			this.#modalWindow.hideModalWindow()
-		})
-	}
+    //adding form submit event listener to from
+    modalForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      //hiding modal window
+      this.#modalWindow.hideModalWindow();
+      /*       this.#showMainContent(); */
+    });
+  }
+
+  #submittingForm() {}
+
+  #renderMainMap(latLng) {
+    return new Promise((resolve) => {
+      this.#mainMap = L.map("modal-map").setView(latLng, 13);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }).addTo(this.#mainMap);
+      this.#myLocationMarker = L.marker(latLng, {
+        icon: currentLocationIcon,
+      }).addTo(this.#mainMap);
+
+      resolve();
+    });
+  }
+
+  #showMainContent() {
+    mainContentContainer.classList.remove("hidden");
+  }
 }
 
-const foodMap = new App()
-
-
-
-
-
-
-
+const foodMap = new App();
