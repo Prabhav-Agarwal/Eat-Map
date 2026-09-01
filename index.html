@@ -52,8 +52,13 @@
           </h1>
         </div>
         <div class="category-nav">
-          <button class="category-nav-btn all-btn selected">All</button>
-          <button class="category-nav-btn restaurant-btn">
+          <button class="category-nav-btn all-btn" data-category="all">
+            All
+          </button>
+          <button
+            class="category-nav-btn restaurant-btn"
+            data-category="restaurant"
+          >
             <span class="btn-svg restaurant-svg">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +81,7 @@
                 </g></svg></span
             >Restaurants
           </button>
-          <button class="category-nav-btn cafe-btn">
+          <button class="category-nav-btn cafe-btn" data-category="cafe">
             <span class="btn-svg cafe-svg">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +103,7 @@
                 </g></svg></span
             >Cafes
           </button>
-          <button class="category-nav-btn bar-btn">
+          <button class="category-nav-btn bar-btn" data-category="bar">
             <span class="btn-svg bar-svg"
               ><svg
                 width="32"
@@ -117,7 +122,10 @@
                 <ellipse cx="16" cy="28.3" rx="5" ry="1.1" /></svg></span
             >Bars
           </button>
-          <button class="category-nav-btn fastfood-btn">
+          <button
+            class="category-nav-btn fast_food-btn"
+            data-category="fast_food"
+          >
             <span class="btn-svg fastfood-svg"
               ><svg
                 width="32"

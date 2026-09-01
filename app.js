@@ -12,6 +12,8 @@ const categoryInput = document.querySelector(".category-input");
 
 const mainContentContainer = document.querySelector(".main-content");
 const cardsContainer = document.querySelector(".places-cards");
+const navCategoryBtns = document.querySelectorAll(".category-nav-btn");
+const navCategoryBtnsContainer = document.querySelector(".category-nav");
 
 const iconsObj = {
   currentLocationIcon: new L.Icon({
@@ -162,12 +164,11 @@ class Place {
     this.placeCategory = placeObj.properties.datasource.raw.amenity;
     this.placeName = placeObj.properties.datasource.raw.name;
     this.placeCuisine = placeObj.properties.datasource.raw.cuisine;
-    this.placeWebsiteLink = placeObj.properties.datasource.website;
-    this.placeDistance = placeObj.properties.datasource.distance;
-    this.placeId = placeObj.properties.datasource.place_id;
+    this.placeWebsiteLink = placeObj.properties.website;
+    this.placeDistance = placeObj.properties.distance / 1000;
     this.placeAddress = placeObj.properties.formatted;
     this.isVegetarian = placeObj.properties.catering?.diet?.vegetarian;
-    this.placeImageSrc = `images/${this.placeCategory}/img${getRandomNum()}`;
+    this.placeImageSrc = `images/${this.placeCategory}/img${getRandomNum()}.jpg`;
 
     this.#placeHtmlStr = `
     <div class="places-card">
@@ -189,7 +190,7 @@ class Place {
   `;
   }
 
-  #placeMarker;
+  placeMarker;
 
   //function for rendering place marker (this --> Place Class instance)
   renderPlaceCard() {
@@ -198,11 +199,15 @@ class Place {
 
   //function for rendering place marker (this --> Place Class instance)
   renderPlaceMarker(mainMap) {
-    this.#placeMarker = L.marker(this.latlng, {
+    this.placeMarker = L.marker(this.latlng, {
       icon: iconsObj[`${this.placeCategory}Icon`],
     }).addTo(mainMap);
 
-    this.#placeMarker.bindPopup(`${this.placeName}`).openPopup();
+    this.placeMarker.bindPopup(`${this.placeName}`).openPopup();
+
+    this.placeMarker.on("click", () => {
+      mainMap.setView(this.latlng, { animate: 1 });
+    });
   }
 }
 
@@ -211,6 +216,7 @@ class App {
   #mainMap;
   #places = [];
   #myLocationMarker;
+  #selectedCategoryPlaces = [];
 
   #formData = {};
 
@@ -227,6 +233,9 @@ class App {
 
       //saving form data
       this.#formData.selectedCategory = categoryInput.value;
+      document
+        .querySelector(`.${this.#formData.selectedCategory}-btn`)
+        .classList.add("selected"); //setting nab bar btn
       this.#formData.currentLocationLatLng =
         this.#modalWindow.currentLocationLatLng;
 
@@ -238,25 +247,63 @@ class App {
         this.#places.push(new Place(placeObject));
       });
 
+      //filtering out unwanted categories
+      this.#places = this.#places.filter((place) => {
+        return ["restaurant", "cafe", "bar", "fast_food"].some(
+          (category) => category === place.placeCategory,
+        );
+      });
+
       //rendering MainMap
       await this.#renderMainMap(this.#formData.currentLocationLatLng);
 
-      //creating marker and card for each of the places
-      let selectedCategoryPlaces = this.#places.filter(
-        (place) => place.placeCategory === this.#formData.selectedCategory,
+      //emptying cards container and removing old  markers from map
+      cardsContainer.innerHTML = "";
+      this.#selectedCategoryPlaces.forEach((place) =>
+        this.#mainMap.removeLayer(place.placeMarker),
       );
 
-      if (!selectedCategoryPlaces.length) selectedCategoryPlaces = this.#places;
+      //creating marker and card for each of the places
+      this.#renderSelectedCategoryPlaces();
 
-      selectedCategoryPlaces.forEach((place) => {
-        place.renderPlaceMarker(this.#mainMap);
-        place.renderPlaceCard();
-      });
+      //adding event listener to nav category btns
 
-      //rendering main content;
-      this.#showMainContent();
+      navCategoryBtnsContainer.addEventListener(
+        "click",
+        (e) => {
+          console.log(e.target);
+          //guard clause
+          if (
+            !e.target
+              .closest(".category-nav-btn")
+              .classList.contains("category-nav-btn")
+          ) {
+            console.log("i have returned");
+            return;
+          }
+          console.log(e.target.closest(".category-nav-btn"));
 
-      //get Restaurants using api
+          //changing btn color
+          navCategoryBtns.forEach((btn) => btn.classList.remove("selected"));
+          e.target.closest(".category-nav-btn").classList.add("selected");
+
+          //emptying cards container and removing markers from map
+          cardsContainer.innerHTML = "";
+          this.#selectedCategoryPlaces.forEach((place) =>
+            this.#mainMap.removeLayer(place.placeMarker),
+          );
+
+          //updating form fields and form data
+          this.#formData.selectedCategory = categoryInput.value =
+            e.target.dataset.category;
+
+          //rerendering new selected category places cards and markers
+
+          this.#renderSelectedCategoryPlaces();
+        },
+        //rendering main content;
+        this.#showMainContent(),
+      );
     });
   }
 
@@ -264,7 +311,7 @@ class App {
 
   #renderMainMap(latLng) {
     return new Promise((resolve) => {
-      this.#mainMap = L.map("main-map").setView(latLng, 13);
+      this.#mainMap = L.map("main-map").setView(latLng, 14);
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution:
@@ -295,6 +342,22 @@ class App {
       console.log(e);
       throw new Error("Something Went Wrong");
     }
+  }
+
+  //function for rendering selected category places
+  #renderSelectedCategoryPlaces() {
+    if (this.#formData.selectedCategory === "all")
+      this.#selectedCategoryPlaces = this.#places;
+    else {
+      this.#selectedCategoryPlaces = this.#places.filter(
+        (place) => place.placeCategory === this.#formData.selectedCategory,
+      );
+    }
+
+    this.#selectedCategoryPlaces.forEach((place) => {
+      place.renderPlaceMarker(this.#mainMap);
+      place.renderPlaceCard();
+    });
   }
 
   //function for rendering main content window

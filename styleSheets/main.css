@@ -81,6 +81,15 @@ textarea {
   box-sizing: border-box;
 }
 
+.category-nav-btn:hover {
+  background-color: #2f3951;
+  cursor: pointer;
+}
+
+.category-nav-btn.selected:hover {
+  background-color: var(--primary-color-2);
+}
+
 .selected {
   background-color: var(--primary-color-2);
 }
