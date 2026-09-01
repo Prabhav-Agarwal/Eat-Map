@@ -200,7 +200,6 @@
                 </div>
               </div>
             </div>
-            \
             <div class="places-card">
               <img src="" alt="" class="places-img" />
               <div class="places-info">
@@ -237,7 +236,28 @@
             <div class="places-card">
               <img src="" alt="" class="places-img" />
               <div class="places-info">
-                <h4 class="place-name">Place Name</h4>
+                <div class="card-title">
+                  <h4 class="place-name">Place Name</h4>
+                  <span
+                    ><div
+                      style="
+                        display: inline-block;
+                        border: 2px solid #008000;
+                        padding: 2px;
+                        background: #fff;
+                      "
+                    >
+                      <div
+                        style="
+                          width: 12px;
+                          height: 12px;
+                          background: #008000;
+                          border-radius: 50%;
+                        "
+                      ></div>
+                    </div>
+                  </span>
+                </div>
                 <div class="place-category-cuisine">Category : Cuisine</div>
                 <div>&bull; x&thinsp;km away</div>
                 <div class="website-link">
@@ -533,11 +553,10 @@
                   class="form-input category-input"
                 >
                   <option class="option" value="all" selected>All</option>
-                  <option class="option" value="restaurants">
-                    Restaurants
-                  </option>
+                  <option class="option" value="restaurant">Restaurants</option>
+                  <option class="option" value="bar">Bars</option>
                   <option class="option" value="cafe">Cafés</option>
-                  <option class="option optionLast" value="fast-food">
+                  <option class="option optionLast" value="fast_food">
                     Fast Food
                   </option>
                 </select>
