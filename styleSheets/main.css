@@ -81,7 +81,8 @@ textarea {
   box-sizing: border-box;
 }
 
-.category-nav-btn:hover {
+.category-nav-btn:hover,
+.change-location-btn:hover {
   background-color: #2f3951;
   cursor: pointer;
 }
@@ -285,6 +286,7 @@ textarea {
     rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 
   border-radius: 5px;
+  background-color: #fff;
 }
 .map-legend-row {
   display: flex;

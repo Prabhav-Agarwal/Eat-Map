@@ -1,6 +1,8 @@
 "use strict";
 /* https://github.com/pointhi/leaflet-color-markers */
 
+/* api key for geoapify */
+const apiKey = "7eaf8c66f4a941cd838b1cda3d00c44e";
 //selecting dom elements
 const modalSection = document.querySelector(".form-map-modal");
 const modalMap = document.querySelector(".modal-map");
@@ -9,11 +11,15 @@ const countryInput = document.querySelector(".country-input");
 const cityInput = document.querySelector(".city-input");
 const locationInput = document.querySelector(".location-input");
 const categoryInput = document.querySelector(".category-input");
+const loaderOverlay = document.querySelector(".loader-overlay");
 
 const mainContentContainer = document.querySelector(".main-content");
 const cardsContainer = document.querySelector(".places-cards");
 const navCategoryBtns = document.querySelectorAll(".category-nav-btn");
 const navCategoryBtnsContainer = document.querySelector(".category-nav");
+const changeLocationBtn = document.querySelector(".change-location-btn");
+const currentCityName = document.querySelector(".current-city-name");
+const numPlaces = document.querySelector(".num-places");
 
 const iconsObj = {
   currentLocationIcon: new L.Icon({
@@ -90,8 +96,52 @@ class ModalWindow {
           const { lat, lng } = e.latlng;
           this.currentLocationLatLng = [lat, lng];
           this.#myLocationMarker.setLatLng([lat, lng]);
+          this.#modalMap.setView([lat, lng], 13, {
+            animate: true,
+            duration: 1,
+          });
           const newLocationInfo = await this.#getLocationInfo(lat, lng);
           this.#updateForm(newLocationInfo);
+        });
+
+        //event for updating form when country is changed
+        countryInput.addEventListener("change", async (e) => {
+          const response = await fetch(
+            `https://api.geoapify.com/v1/geocode/search?country=${e.target.value}&lang=en&format=geojson&apiKey=${apiKey}`,
+          );
+          const data = await response.json();
+
+          countryInput.value = data.features[0].properties.country;
+          cityInput.value = "";
+          locationInput.value = data.features[0].properties.formatted;
+
+          let { lat, lon: lng } = data.features[0].properties;
+          this.currentLocationLatLng = [lat, lng];
+          this.#myLocationMarker.setLatLng([lat, lng]);
+          this.#modalMap.setView([lat, lng], 13, {
+            animate: true,
+            duration: 1,
+          });
+        });
+
+        //event for updating form when country is changed
+        cityInput.addEventListener("change", async (e) => {
+          const response = await fetch(
+            `https://api.geoapify.com/v1/geocode/search?city=${e.target.value}&lang=en&format=geojson&apiKey=${apiKey}`,
+          );
+          const data = await response.json();
+
+          countryInput.value = data.features[0].properties.country;
+          cityInput.value = data.features[0].properties.city;
+          locationInput.value = data.features[0].properties.formatted;
+
+          let { lat, lon: lng } = data.features[0].properties;
+          this.currentLocationLatLng = [lat, lng];
+          this.#myLocationMarker.setLatLng([lat, lng]);
+          this.#modalMap.setView([lat, lng], 13, {
+            animate: true,
+            duration: 1,
+          });
         });
       } catch (e) {
         console.error(`Something Went Wrong : ${e}`);
@@ -147,6 +197,13 @@ class ModalWindow {
     cityInput.value = locationInfo.results[0].city;
     locationInput.value = locationInfo.results[0].formatted;
   }
+  //functin for hiding and showing modal window and loaderoverlay
+  showLoaderOverlay() {
+    loaderOverlay.classList.remove("hidden");
+  }
+  hideLoaderOverlay() {
+    loaderOverlay.classList.add("hidden");
+  }
 
   //functin for hiding and showing modal window
   hideModalWindow() {
@@ -162,16 +219,16 @@ class Place {
   constructor(placeObj) {
     this.latlng = [placeObj.properties.lat, placeObj.properties.lon];
     this.placeCategory = placeObj.properties.datasource.raw.amenity;
-    this.placeName = placeObj.properties.datasource.raw.name;
-    this.placeCuisine = placeObj.properties.datasource.raw.cuisine;
-    this.placeWebsiteLink = placeObj.properties.website;
+    this.placeName = placeObj.properties.datasource.raw.name || "Dining Place";
+    this.placeCuisine = placeObj.properties.datasource.raw.cuisine || "General";
+    this.placeWebsiteLink = placeObj.properties.website || "#";
     this.placeDistance = placeObj.properties.distance / 1000;
     this.placeAddress = placeObj.properties.formatted;
     this.isVegetarian = placeObj.properties.catering?.diet?.vegetarian;
     this.placeImageSrc = `images/${this.placeCategory}/img${getRandomNum()}.jpg`;
 
     this.#placeHtmlStr = `
-    <div class="places-card">
+    <div class="places-card" data-lat = "${this.latlng[0]}" data-lng = "${this.latlng[1]}" data-address="${this.placeAddress}">
       <img src="${this.placeImageSrc}" alt="${this.placeCategory} Image" class="places-img" />
       <div class="places-info">
         <div class="card-title">
@@ -203,10 +260,11 @@ class Place {
       icon: iconsObj[`${this.placeCategory}Icon`],
     }).addTo(mainMap);
 
-    this.placeMarker.bindPopup(`${this.placeName}`).openPopup();
+    this.placeMarker.bindPopup(`${this.placeName}`);
 
     this.placeMarker.on("click", () => {
-      mainMap.setView(this.latlng, { animate: 1 });
+      console.log(" i was clicked", this);
+      mainMap.setView(this.latlng, 12, { animate: true, duration: 1 });
     });
   }
 }
@@ -228,14 +286,20 @@ class App {
     //adding form submit event listener to from
     modalForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      //hiding modal window
-      this.#modalWindow.hideModalWindow();
+
+      //guard clause
+      if (locationInput.value === "") return;
+
+      //showing loader overlay
+      this.#modalWindow.showLoaderOverlay();
 
       //saving form data
       this.#formData.selectedCategory = categoryInput.value;
+      this.#formData.currentCityName = cityInput.value;
+
       document
         .querySelector(`.${this.#formData.selectedCategory}-btn`)
-        .classList.add("selected"); //setting nab bar btn
+        .classList.add("selected"); //setting nav bar btn
       this.#formData.currentLocationLatLng =
         this.#modalWindow.currentLocationLatLng;
 
@@ -255,6 +319,7 @@ class App {
       });
 
       //rendering MainMap
+
       await this.#renderMainMap(this.#formData.currentLocationLatLng);
 
       //emptying cards container and removing old  markers from map
@@ -266,44 +331,85 @@ class App {
       //creating marker and card for each of the places
       this.#renderSelectedCategoryPlaces();
 
-      //adding event listener to nav category btns
+      //updating current city name
+      currentCityName.textContent = this.#formData.currentCityName;
 
-      navCategoryBtnsContainer.addEventListener(
-        "click",
-        (e) => {
-          console.log(e.target);
-          //guard clause
-          if (
-            !e.target
-              .closest(".category-nav-btn")
-              .classList.contains("category-nav-btn")
-          ) {
-            console.log("i have returned");
-            return;
-          }
-          console.log(e.target.closest(".category-nav-btn"));
+      //hiding loader overlay and modal window
+      this.#modalWindow.hideLoaderOverlay();
+      this.#modalWindow.hideModalWindow();
 
-          //changing btn color
-          navCategoryBtns.forEach((btn) => btn.classList.remove("selected"));
-          e.target.closest(".category-nav-btn").classList.add("selected");
+      //rendering main content;
+      this.#showMainContent();
+      this.#mainMap.invalidateSize();
+    });
 
-          //emptying cards container and removing markers from map
-          cardsContainer.innerHTML = "";
-          this.#selectedCategoryPlaces.forEach((place) =>
-            this.#mainMap.removeLayer(place.placeMarker),
-          );
+    //adding event listener to nav category btns
 
-          //updating form fields and form data
-          this.#formData.selectedCategory = categoryInput.value =
-            e.target.dataset.category;
+    navCategoryBtnsContainer.addEventListener("click", (e) => {
+      console.log(e.target);
+      //guard clause
+      if (
+        !e.target
+          .closest(".category-nav-btn")
+          .classList.contains("category-nav-btn")
+      ) {
+        console.log("i have returned");
+        return;
+      }
+      console.log(e.target.closest(".category-nav-btn"));
 
-          //rerendering new selected category places cards and markers
+      //changing btn color
+      navCategoryBtns.forEach((btn) => btn.classList.remove("selected"));
+      e.target.closest(".category-nav-btn").classList.add("selected");
 
-          this.#renderSelectedCategoryPlaces();
-        },
-        //rendering main content;
-        this.#showMainContent(),
+      //emptying cards container and removing markers from map
+      cardsContainer.innerHTML = "";
+      this.#selectedCategoryPlaces.forEach((place) =>
+        this.#mainMap.removeLayer(place.placeMarker),
       );
+
+      //updating form fields and form data
+      this.#formData.selectedCategory = categoryInput.value =
+        e.target.dataset.category;
+
+      //rerendering new selected category places cards and markers
+
+      this.#renderSelectedCategoryPlaces();
+    });
+
+    //Adding event listener to change location btn
+    changeLocationBtn.addEventListener("click", () => {
+      //completely removing map
+      this.#mainMap.remove();
+      this.#hideMainContent();
+      this.#modalWindow.showModalWindow();
+    });
+
+    //Adding event listener for setting map view to specific card marker
+    cardsContainer.addEventListener("click", (e) => {
+      console.log("hello");
+      //guard clause
+      if (!e.target.closest(".places-card").classList.contains("places-card")) {
+        return;
+      }
+
+      console.log("I am here");
+      this.#mainMap.setView(
+        [
+          +e.target.closest(".places-card").dataset.lat,
+          +e.target.closest(".places-card").dataset.lng,
+        ],
+        15,
+        { animate: true, duration: 1 },
+      );
+
+      this.#selectedCategoryPlaces
+        .find(
+          (placeObj) =>
+            placeObj.placeAddress ===
+            e.target.closest(".places-card").dataset.address,
+        )
+        .placeMarker.openPopup();
     });
   }
 
@@ -311,7 +417,7 @@ class App {
 
   #renderMainMap(latLng) {
     return new Promise((resolve) => {
-      this.#mainMap = L.map("main-map").setView(latLng, 14);
+      this.#mainMap = L.map("main-map").setView(latLng, 12);
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution:
@@ -358,11 +464,17 @@ class App {
       place.renderPlaceMarker(this.#mainMap);
       place.renderPlaceCard();
     });
+
+    numPlaces.textContent = `${this.#selectedCategoryPlaces.length} places`;
   }
 
-  //function for rendering main content window
+  //functions for rendering and hiding main content window
   #showMainContent() {
     mainContentContainer.classList.remove("hidden");
+  }
+
+  #hideMainContent() {
+    mainContentContainer.classList.add("hidden");
   }
 }
 
