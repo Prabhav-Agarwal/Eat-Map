@@ -191,7 +191,7 @@ class ModalWindow {
     }
   }
 
-  //Function nfor updating form inputs
+  //Function for updating form inputs
   #updateForm(locationInfo) {
     countryInput.value = locationInfo.results[0].country;
     cityInput.value = locationInfo.results[0].city;
@@ -353,10 +353,8 @@ class App {
           .closest(".category-nav-btn")
           .classList.contains("category-nav-btn")
       ) {
-        console.log("i have returned");
         return;
       }
-      console.log(e.target.closest(".category-nav-btn"));
 
       //changing btn color
       navCategoryBtns.forEach((btn) => btn.classList.remove("selected"));
@@ -394,7 +392,10 @@ class App {
     cardsContainer.addEventListener("click", (e) => {
       console.log("hello");
       //guard clause
-      if (!e.target.closest(".places-card").classList.contains("places-card")) {
+      if (
+        e.target.classList.contains("hyper-link") ||
+        !e.target.closest(".places-card").classList.contains("places-card")
+      ) {
         return;
       }
 
