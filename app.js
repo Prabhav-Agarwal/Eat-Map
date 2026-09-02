@@ -381,6 +381,11 @@ class App {
     changeLocationBtn.addEventListener("click", () => {
       //completely removing map
       this.#mainMap.remove();
+
+      //emptying
+      this.#selectedCategoryPlaces = [];
+      this.#places = [];
+
       this.#hideMainContent();
       this.#modalWindow.showModalWindow();
     });
@@ -453,7 +458,7 @@ class App {
   //function for rendering selected category places
   #renderSelectedCategoryPlaces() {
     if (this.#formData.selectedCategory === "all")
-      this.#selectedCategoryPlaces = this.#places;
+      this.#selectedCategoryPlaces = [...this.#places];
     else {
       this.#selectedCategoryPlaces = this.#places.filter(
         (place) => place.placeCategory === this.#formData.selectedCategory,
