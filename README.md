@@ -2,7 +2,7 @@
 
 A vanilla JavaScript web app that finds dining spots — restaurants, cafés, bars, and fast food — near any location on an interactive map. Built as a practice project focused on **asynchronous JavaScript, third-party APIs, OOP architecture, and DOM manipulation**, with no frameworks involved.
 
-🔗 **Live demo:** [eat-map.netlify.app](https://eat-map.netlify.app/)
+🔗 **Live demo:(Works best with PC)** [eat-map.netlify.app](https://eat-map.netlify.app/)
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
